@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/deco/menu.css}" rel="stylesheet">
+<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.min.js}"></script>
+<!--<script>-->
+<!--	function formReset(){-->
+<!--		document.searchform.reset();-->
+<!--	}-->
+<!--</script>-->
+<title>Personal</title>
+</head>
+<body>
+<h1>Practice Time</h1>
+<div class="header container text-center">
+	<h2>Menu</h2>
+	<button type="button" class="btn btn-outline-primary"><a href="/group/menu">Main</a></button>
+	<button type="button" class="btn btn-outline-success"><a href="/group/main">SignUp</a></button>
+	<button type="button" class="btn btn-outline-info"><a href="/group/playerList">Personal</a></button>
+	<button type="button" class="btn btn-outline-secondary"><a href="/group/teamInfo" + teamId>Team</a></button>
+	
+</div>
+<!-- 検索フォーム-->
+<form name="searchform" class="mb-4" method="post" th:action="@{/group/playerList}" th:object="${both}">
+	<input type="text" th:field="*{playerName}">
+	<button class="btn btn-primary">検索</button>
+	<button type="button" class="btn btn-warning text-white"><a th:href="@{/group/playerList}">消えてなくなれー！</a></button>
+</form>
+	<div class="container mt-4">
+		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col" th:each="user : ${UserList}">
+				<div class="card h-100  text-bg-info">
+					<img th:src="@{'/foto/' + ${user.playerId} + '.jpg'}" class="card-img-top" alt="player-foto">
+					<div class="card-body text-bg-primary p-3">
+						<h5 class="card-title">Player Info</h5>
+						<ul class="list-group list-group-flush text-bg-primary p-3">
+							<li class="list-group-item text-bg-primary p-3" th:text="${user.playerName}" ></li>
+							<li class="list-group-item text-bg-primary p-3" th:text="${user.age}"></li>
+							<li class="list-group-item text-bg-primary p-3" th:text="${user.birthPlace}"></li>
+							<li class="list-group-item text-bg-primary p-3"><button type="button" class="btn btn-warning"><a th:href="@{/group/detailByOwnself(player_id=${user.playerId})}">詳細</a></button></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

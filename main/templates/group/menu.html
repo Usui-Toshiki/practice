@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/deco/menu.css}" rel="stylesheet">
+<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.min.js}"></script>
+<title>Personal</title>
+
+</head>
+<body>
+<h1>Main Menu</h1>
+<div class="header container text-center">
+	<h2>Menu</h2>
+	<button type="button" class="btn btn-outline-primary"><a href="/group/menu">Main</a></button>
+	<button type="button" class="btn btn-outline-success"><a href="/group/main">SignUp</a></button>
+	<button type="button" class="btn btn-outline-info"><a href="/group/playerList">Personal</a></button>
+	<button type="button" class="btn btn-outline-secondary"><a href="/group/teamInfo" + teamId>Team</a></button>
+</div>
+
+<div class="main-contents  text-primary">
+	<div class="container text-center row  p-3 mb-2 bg-primary-subtle">
+		<div class="col-8">
+			<img th:src="@{/foto/keiyaku.png}" alt="confirm" height="300px" width="300px" class="img-fluid">
+		</div>
+		<div class="col-4">
+			<h2><a href="/group/main">Signup Page</a></h2>
+			<p>If you sign with some team, you will be check this page!</p>
+		</div>
+	</div>
+	<div class="container text-center row">
+	
+		<div class="col-4">
+			<h2><a href="/group/playerList">Player List</a></h2>
+			<p>You have a interesting to Player who anyone a good Player.</br>
+			   Check it!</p>
+		</div>
+		<div class="col-8">
+			<img th:src="@{/foto/undo.png}" alt="undo" height="300px" width="300px" class="img-fluid">
+		</div>
+	</div>
+	<div class="container text-center row  p-3 mb-2 bg-primary-subtle ">
+		<div class="col-8">
+			<img th:src="@{/foto/ouen.jpg}" alt="ouen" height="300px" width="300px" class="img-fluid">
+		</div>
+		<div class="col-4">
+			<h2><a href="/group/teamInfo" + teamId>Team List</a></h2>
+			<p>You look a team list for sighup or check a playerlist</p>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

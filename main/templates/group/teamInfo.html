@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/deco/menu.css}" rel="stylesheet">
+<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.min.js}"></script>
+<title>Team Info</title>
+<script type="text/javascript">
+	function teamSelect(){
+		var teamId;
+		var teamRadio = document.querySelector('input[name="team_id"]:checked');	
+		teamId = teamRadio.value;
+		document.getElementById("teamForm").action = '/group/TUsersByYourself';
+		document.getElementById("teamForm").submit();
+	}
+
+</script>
+<style>
+	h3{
+		color:#ff0000;
+	}
+</style>
+</head>
+<body>
+<h1>Team Info</h1>
+<div class="header container text-center">
+	<h2>Menu</h2>
+	<button type="button" class="btn btn-outline-primary"><a href="/group/menu">Main</a></button>
+	<button type="button" class="btn btn-outline-success"><a href="/group/main">SignUp</a></button>
+	<button type="button" class="btn btn-outline-info"><a href="/group/playerList">Personal</a></button>
+	<button type="button" class="btn btn-outline-secondary"><a href="/group/teamInfo" + teamId>Team</a></button>
+</div>
+
+
+
+<div class="container text-center">
+	<h3 th:text="${teamName}"></h3>
+	<form id="teamForm" th:action="@{/group/TUsersByYourself}" method="get">
+		<input type="hidden" name="teamId" th:value="${teamId}"/>
+		<div>
+			<label><input type="radio" name="team_id" th:checked="${teamId == 1}" value="1" onclick="teamSelect()">Red Dragons</label>
+			<label><input type="radio" name="team_id" th:checked="${teamId == 2}" value="2" onclick="teamSelect()">Blue Sharks</label>
+			<label><input type="radio" name="team_id" th:checked="${teamId == 3}" value="3" onclick="teamSelect()">Green Giants</label>
+			<label><input type="radio" name="team_id" th:checked="${teamId == 4}" value="4" onclick="teamSelect()">Yellow Tigers</label>
+			<label><input type="radio" name="team_id" th:checked="${teamId == 5}" value="5" onclick="teamSelect()">Black Panthers</label>			
+		</div>
+	</form>
+</div>
+<div>
+	<table class="table table-secondary table-bordered" border="1">
+		
+		<thead class="table table-dark table-borderless">
+			<tr>
+				<!--address-->
+				<th>所在地</th>
+				<!--category-->
+				<th>競技名</th>
+				<!--team.playerCount-->
+				<th>所属人数</th>
+			</tr>
+		</thead>
+		<tbody  border="1">
+			<tr th:each="tuser: ${TUsersList}">
+				<td th:text="${tuser.teamAddress}"></td>
+				<td th:text="${tuser.category}"></td>
+				<td th:text="${totalTeamPlayers}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div>
+	<!--所属チーム者一覧-->
+	<table class="table  table-bordered table-striped ">
+		<thead class="table table-dark table-borderless">
+			<tr>
+				<th th:text="#{number}"></th>
+				<th th:text="#{playerName}"></th>
+				<th th:text="#{age}"></th>
+				<th th:text="#{playerBirth}"></th>
+				<th th:text="#{birthPlace}"></th>
+			</tr>
+		</thead>
+		<tbody class="table table-secondary border-dark">
+			<tr th:each="user : ${UsersList}">
+				<td th:text="${user.rownum}"></td>
+				<td th:text="${user.playerName}"></td>
+				<td th:text="${user.age}"></td>
+				<td th:text="${user.playerBirth}"></td>
+				<td th:text="${user.birthPlace}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+</body>
+</html>

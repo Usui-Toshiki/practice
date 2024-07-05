@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.repository.PlayerMapper">
+
+<!--            team            -->
+
+	<select id="findManyById" resultType="com.example.domain.user.model.TUser">
+		SELECT * FROM yourself where team_id = #{teamId}
+	</select>
+	
+	<select id="findAllById" resultType="com.example.domain.user.model.User">
+		select row_number() over(order by selfer.player_id) as rownum ,selfer.*,myself.*  from selfer
+		join myself on myself.player_id = selfer.player_id
+		where selfer.team_id = #{teamId};
+	</select>
+	
+	<select id="findOne" resultType="String">
+		SELECT team_name FROM yourself WHERE team_id = #{teamId}
+	</select>
+	
+	<select id="totalTeamPlayers" resultType="Integer">
+		select count(player_id) as playerId from selfer where team_id = #{teamId}
+	</select>
+	
+<!--	     player           -->
+	
+	<select id="findAll" resultType="com.example.domain.user.model.User">
+		select myself.*,row_number() over (order by player_id) as rownum
+		from myself;
+	</select>
+	
+	<select id="findMany" resultType="com.example.domain.user.model.User">
+		select * from myself 
+		<where><if test="playerName != null">player_name LIKE CONCAT ('%', #{playerName}, '%')</if></where> 
+	</select>
+	
+	<!-- detail -->
+	<select id="allPlayers" resultType="com.example.domain.user.model.User">
+			select group_concat(yourself.team_name) as teamName,myself.* from selfer
+			join myself on myself.player_id = selfer.player_id 
+			join yourself on yourself.team_id = selfer.team_id
+			where myself.player_id = #{playerId}
+			group by selfer.player_id
+	</select>
+	
+	<!-- signup -->
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="playerId" parameterType="com.example.domain.user.model.User">
+        <selectKey keyProperty="playerId" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+<!--		<insert id="insertMyself" parameterType="com.example.domain.user.model.User">	-->
+			<![CDATA[
+
+				insert into myself(
+				player_id,
+				player_name,
+				age,
+				player_birth,
+				birthPlace,
+				strong,
+				food,
+				word
+				) values (
+				#{playerId},
+				#{playerName},
+				#{age},
+				#{playerBirth},
+				#{birthPlace},
+				#{strong},
+				#{food},
+				#{word}
+				);
+			]]>
+	</insert>
+	<insert id="insertSelfer"  parameterType="com.example.domain.user.model.User">
+			<![CDATA[
+				insert into selfer(
+				player_id,
+				team_id
+				) values (
+				#{playerId},
+				#{teamId}
+				)
+			]]>
+		
+			
+	</insert>
+	
+	<select id="findOneById" resultType="com.example.domain.user.model.TUser">
+		select team_name from yourself where team_id = #{teamId}
+	</select>
+
+</mapper>
